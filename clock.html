@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="clock.css">
+</head>
+<body>
+    <div class="border1">
+
+        <div class="border">
+            <div class="clock"></div>    
+            <button class="format" onclick="toggle()">Format</button>
+            <div class="footer">Made by Jayesh</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        let nature = false; // false = 24hr, true = 12hr
+        let intervalId;
+
+        function digital(nature) {
+            let ele = document.querySelector('.clock');
+
+            // Clear old interval before starting new one
+            if (intervalId) clearInterval(intervalId);
+
+            intervalId = setInterval(() => {
+                let now = new Date();
+                let hrs = now.getHours();
+                let min = now.getMinutes();
+                let sec = now.getSeconds();
+                let period = "";
+                period = hrs < 12 ? "AM" : "PM";
+
+                if (nature) { // 12-hour format
+                    period = hrs < 12 ? "AM" : "PM";
+                    hrs = hrs % 12;
+                    if (hrs == 0) hrs = 12;
+                }
+
+                hrs = (hrs < 10 ? "0" : "") + hrs;
+                min = (min < 10 ? "0" : "") + min;
+                sec = (sec < 10 ? "0" : "") + sec;
+                ele.innerText = `${hrs}:${min}:${sec} ${period}`;
+            }, 1000);
+        }
+
+        function toggle() {
+            nature = !nature;  
+            digital(nature);    
+        }
+
+        digital(nature); 
+    </script>
+</body>
+</html>
